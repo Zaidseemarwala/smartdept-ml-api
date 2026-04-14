@@ -43,10 +43,77 @@ def load_model():
 # =========================================================
 def get_data():
     global CACHE
-    if CACHE is None:
-        CACHE = fetch_all_data()
-    return CACHE
 
+    if CACHE is not None:
+        return CACHE
+
+try:
+    CACHE = fetch_all_data()
+
+    # 🔥 CHECK if data is empty
+    if not CACHE:
+        raise Exception("No Firebase data")
+
+    print("✅ Using Firebase data")
+
+except Exception as e:
+    print("⚠️ Firebase not available, using demo data:", e)
+
+    # 🔥 DEMO DATA
+    CACHE = {
+        "demo_university": {
+            "hods": {
+                "hod_1": {
+                    "faculty": {
+                        "f1": {"name": "Dr. Sharma"},
+                        "f2": {"name": "Prof. Khan"}
+                    },
+                    "departments": {
+                        "dept_1": {
+                            "years": {
+                                "year_1": {
+                                    "classes": {
+                                        "class_1": {
+                                            "name": "CS-A",
+                                            "students": [
+                                                {"roll_no": "1", "name": "Aman"},
+                                                {"roll_no": "2", "name": "Riya"}
+                                            ],
+                                            "attendance": {
+                                                "math": {
+                                                    "s1": {
+                                                        "records": ["P", "A"],
+                                                        "takenBy": {"uid": "f1"}
+                                                    },
+                                                    "s2": {
+                                                        "records": ["P", "P"],
+                                                        "takenBy": {"uid": "f1"}
+                                                    },
+                                                    "s3": {
+                                                        "records": ["A", "P"],
+                                                        "takenBy": {"uid": "f2"}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "classroom": {
+                "assignments": {
+                    "a1": {
+                        "createdBy": "f1",
+                        "submissions": [1, 1]
+                    }
+                }
+            }
+        }
+    }
+   
 
 # =========================================================
 # HOME
